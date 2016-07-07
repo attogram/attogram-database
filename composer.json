@@ -1,0 +1,24 @@
+{
+  "name": "attogram/attogram-database",
+  "description": "Database Module for the Attogram Framework",
+  "type": "project",
+  "homepage": "https://github.com/attogram/attogram-database",
+  "license": "(MIT or GPL-3.0+)",
+  "require": {
+    "php": ">=5.3.3 || ^7.0"
+  },
+  "authors": [
+    {
+      "name": "Attogram Developers",
+      "homepage": "https://www.patreon.com/attogram"
+    }
+  ],
+  "suggest": {
+    "attogram/attogram-framework": "The Attogram Framework"
+  },
+  "keywords": [
+    "attogram",
+    "attogram framework",
+    "attogram module"
+  ]
+}
