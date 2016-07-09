@@ -5,6 +5,8 @@
 [![Latest Unstable Version](https://poser.pugx.org/attogram/attogram-database/v/unstable)](https://packagist.org/packages/attogram/attogram-database)
 [![Total Downloads](https://poser.pugx.org/attogram/attogram-database/downloads)](https://packagist.org/packages/attogram/attogram-database)
 [![License](https://poser.pugx.org/attogram/attogram-database/license)](https://github.com/attogram/attogram-database/blob/master/LICENSE.md)
+[![Code Climate](https://codeclimate.com/github/attogram/attogram-database/badges/gpa.svg)](https://codeclimate.com/github/attogram/attogram-database)
+[![Issue Count](https://codeclimate.com/github/attogram/attogram-database/badges/issue_count.svg)](https://codeclimate.com/github/attogram/attogram-database)
 [`[CHANGELOG]`](https://github.com/attogram/attogram-database/blob/master/CHANGELOG.md)
 
 This is the Database Module for the [Attogram Framework](https://github.com/attogram/attogram).
