@@ -24,11 +24,11 @@ composer create-project attogram/attogram-database modules/_attogram_database
  * `admin_actions/events.php` - Event log viewer
 
 * Configurations:
- * `configs\database_config.php` - config for db file
+ * `configs/database_config.php` - config for db file
 
 * Includes:
- * `includes\attogram_database.php` - Attogram database interface
- * `includes\sqlite_database.php` - SQLite helper Attogram database object
+ * `includes/attogram_database.php` - Attogram database interface
+ * `includes/sqlite_database.php` - SQLite helper Attogram database object
 
 * Database Tables:
- * `tables\event.sql` - Event log table  
+ * `tables/event.sql` - Event log table  
