@@ -7,6 +7,9 @@
   "require": {
     "php": ">=5.3.3 || ^7.0"
   },
+  "require-dev": {
+      "phpunit/phpunit": "5.4.*"
+  },
   "authors": [
     {
       "name": "Attogram Developers",
@@ -14,7 +17,9 @@
     }
   ],
   "suggest": {
-    "attogram/attogram-framework": "The Attogram Framework"
+    "attogram/attogram-framework": "The Attogram Framework",
+    "attogram/attogram-base": "Base Module for the Attogram Framework",
+    "attogram/attogram-user": "User Module for the Attogram Framework"
   },
   "keywords": [
     "attogram",

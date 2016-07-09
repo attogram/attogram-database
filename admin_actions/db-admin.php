@@ -1,4 +1,4 @@
-<?php // Attogram Framework - phpLiteAdmin mod v0.0.2
+<?php // Attogram Framework - Database Module - phpLiteAdmin mod v0.0.2
 
 //
 //	Project: phpLiteAdmin (https://bitbucket.org/phpliteadmin/public)
