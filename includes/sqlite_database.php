@@ -1,4 +1,4 @@
-<?php  // Attogram Framework - Database Module - sqlite_database class v0.3.5
+<?php  // Attogram Framework - Database Module - sqlite_database class v0.3.6
 
 namespace Attogram;
 
@@ -80,21 +80,21 @@ class sqlite_database implements attogram_database
       $this->log->error("QUERY: prepare failed: $sqlstate:$error_code:$error_string");
       return array();
     }
-    while( $x = each($bind) ) {
-      $statement->bindParam( $x[0], $x[1] );
+    while( $binders = each($bind) ) {
+      $statement->bindParam( $binders[0], $binders[1] );
       // dev: Warning: PDOStatement::bindParam(): SQLSTATE[HY093]: Invalid parameter number: Columns/Parameters are 1-based
     }
     if( !$statement->execute() ) {
       $this->log->error('QUERY: Can not execute query');
       return array();
     }
-    $r = $statement->fetchAll(\PDO::FETCH_ASSOC);
-    if( !$r && $this->db->errorCode() != '00000') { // query failed
+    $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
+    if( !$result && $this->db->errorCode() != '00000') { // query failed
       $this->log->error('QUERY: Query failed');
-      $r = array();
+      $result = array();
     }
-    $this->log->debug('QUERY: result size=' . sizeof($r) );
-    return $r;
+    $this->log->debug('QUERY: result size=' . sizeof($result) );
+    return $result;
   }
 
   /**
@@ -244,12 +244,10 @@ class sqlite_database implements attogram_database
   public function tabler( $table, $table_id, $name_singular, $name_plural, $public_link, array $col, $sql, $admin_link, $show_edit, $per_page )
   {
 
-    $count_sql = 'SELECT count(' . $table_id . ') AS count FROM ' . $table;
-    $c = $this->query($count_sql);
-    if( $c ) {
-      $count = $c[0]['count'];
-    } else {
-      $count = 0;
+    $count = 0;
+    $result = $this->query( 'SELECT count(' . $table_id . ') AS count FROM ' . $table );
+    if( $result ) {
+      $count = $result[0]['count'];
     }
 
     list( $limit, $offset ) = $this->get_set_limit_and_offset(
@@ -288,16 +286,16 @@ class sqlite_database implements attogram_database
 
     print '</p><table class="table table-bordered table-hover table-condensed"><colgroup>';
 
-    foreach( $col as $c ) {
-      print '<col class="' . $c['class'] . '">';
+    foreach( $col as $column ) {
+      print '<col class="' . $column['class'] . '">';
     }
     if( $show_edit ) {
       print '<col class="col-md-1">';
     }
     print '</colgroup><thead><tr class="active">';
 
-    foreach( $col as $c ) {
-      print '<th>' . $c['title'] . '</th>';
+    foreach( $col as $column ) {
+      print '<th>' . $column['title'] . '</th>';
     }
     if( $show_edit ) {
       print '<th><nobr><small>'
@@ -310,8 +308,8 @@ class sqlite_database implements attogram_database
 
     foreach( $result as $row ) {
       print '<tr>';
-      foreach( $col as $c ) {
-        print '<td>' . htmlentities($row[ $c['key'] ]) . '</td>';
+      foreach( $col as $column ) {
+        print '<td>' . htmlentities($row[ $column['key'] ]) . '</td>';
       }
       if( $show_edit ) {
         print '<td> &nbsp; &nbsp; '
@@ -354,7 +352,7 @@ class sqlite_database implements attogram_database
       $end_count = $count;
     }
 
-    $r = '<p class="small">Showing # ' . "<strong>$start_count</strong> - <strong>$end_count</strong> of <code>$count</code> results</p>";
+    $result = '<p class="small">Showing # ' . "<strong>$start_count</strong> - <strong>$end_count</strong> of <code>$count</code> results</p>";
 
     if( $limit <= 0 ) {
       $total_pages = 0;
@@ -366,7 +364,7 @@ class sqlite_database implements attogram_database
     }
 
     if( $total_pages ) {
-      $r .= '<ul class="pagination pagination-sm squished">';
+      $result .= '<ul class="pagination pagination-sm squished">';
       $p_offset = 0;
       if( $pre_qs ) {
         $url_start = '?' . $pre_qs . '&';
@@ -381,13 +379,13 @@ class sqlite_database implements attogram_database
           $active = '';
         }
         $url = $url_start . 'l=' . $limit . '&amp;o=' . $p_offset;
-        $r .= '<li' . $active . '><a href="' . $url . '">' . ($x+1) . '</a></li>';
+        $result .= '<li' . $active . '><a href="' . $url . '">' . ($x+1) . '</a></li>';
         $p_offset += $limit;
       }
-      $r .= '</ul>';
+      $result .= '</ul>';
     }
 
-    return $r;
+    return $result;
   }
 
   /**
