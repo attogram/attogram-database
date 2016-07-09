@@ -32,3 +32,6 @@ composer create-project attogram/attogram-database modules/_attogram_database
 
 * Database Tables:
  * `tables/event.sql` - Event log table  
+
+ * Misc:
+  * `tests/` - phpunit tests
