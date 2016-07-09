@@ -21,6 +21,7 @@ composer create-project attogram/attogram-database modules/_attogram_database
 * Admin Actions:
  * `admin_actions/db-admin.php` - phpliteadmin database web admin
  * `admin_actions/db-tables.php` - display info about tables
+ * `admin_actions/events.php` - Event log viewer
 
 * Configurations:
  * `configs\database_config.php` - config for db file
@@ -28,3 +29,6 @@ composer create-project attogram/attogram-database modules/_attogram_database
 * Includes:
  * `includes\attogram_database.php` - Attogram database interface
  * `includes\sqlite_database.php` - SQLite helper Attogram database object
+
+* Database Tables:
+ * `tables\event.sql` - Event log table  
