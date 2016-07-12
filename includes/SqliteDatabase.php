@@ -1,4 +1,4 @@
-<?php  // Attogram Framework - Database Module - SqliteDatabase class v0.3.11
+<?php  // Attogram Framework - Database Module - SqliteDatabase class v0.3.12
 
 namespace Attogram;
 
@@ -172,7 +172,7 @@ class SqliteDatabase implements AttogramDatabase
       }
       $this->tables = array();
       foreach( $dirs as $d ) {
-        foreach( array_diff(scandir($d), AttogramFS::get_skip_files() ) as $f ) {
+        foreach( array_diff(scandir($d), AttogramFS::getSkipFiles() ) as $f ) {
           $file = $d . '/' . $f;
           if( !is_file($file) || !is_readable($file) || !preg_match('/\.sql$/',$file) ) {
             continue; // .sql files only
