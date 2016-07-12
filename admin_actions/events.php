@@ -1,6 +1,6 @@
-<?php // Attogram Framework - Base Module - Events log v0.1.3
+<?php // Attogram Framework - Base Module - Events log v0.1.4
 
-namespace Attogram;
+namespace attogram;
 
 list( $limit, $offset ) = $this->database->get_set_limit_and_offset(
   $default_limit  = 1000,

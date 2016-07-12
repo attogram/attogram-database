@@ -1,4 +1,4 @@
-<?php // Attogram Framework - Database Module - phpLiteAdmin mod v0.0.3
+<?php // Attogram Framework - Database Module - phpLiteAdmin mod v0.0.4
 
 //
 //	Project: phpLiteAdmin (https://bitbucket.org/phpliteadmin/public)
@@ -188,7 +188,7 @@ $lang = array(
 	"db_f" => "database file",
 	"db_ch" => "Change Database",
 	"db_event" => "Database Event",
-	"db_name" => "Database name",
+	"databaseName" => "Database name",
 	"db_rename" => "Rename Database",
 	"db_renamed" => "Database '%s' has been renamed to",
 	"db_del" => "Delete Database",
@@ -3652,7 +3652,7 @@ if(!$target_table && !isset($_GET['confirm']) && (!isset($_GET['action']) || (is
 			echo "</div>";
 		}
 
-		echo "<strong>".$lang['db_name']."</strong>: ".htmlencode($db->getName())."<br/>";
+		echo "<strong>".$lang['databaseName']."</strong>: ".htmlencode($db->getName())."<br/>";
 		echo "<strong>".$lang['db_path']."</strong>: ".htmlencode($db->getPath())."<br/>";
 		echo "<strong>".$lang['db_size']."</strong>: ".$db->getSize()." KB<br/>";
 		echo "<strong>".$lang['db_mod']."</strong>: ".$db->getDate()."<br/>";

@@ -1,7 +1,7 @@
-<?php // Attogram Framework - Database module - database config v0.0.3
+<?php // Attogram Framework - Database module - database config v0.0.4
 
-namespace Attogram;
+namespace attogram;
 
 global $config;
 
-// $config['db_name'] = '../db/global';
+// $config['databaseName'] = '../db/global';

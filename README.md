@@ -1,4 +1,4 @@
-# Attogram Framework Database Module v0.0.2
+# Attogram Framework Database Module v0.0.3
 
 [![Build Status](https://travis-ci.org/attogram/attogram-database.svg?branch=master)](https://travis-ci.org/attogram/attogram-database)
 [![Latest Stable Version](https://poser.pugx.org/attogram/attogram-database/v/stable)](https://packagist.org/packages/attogram/attogram-database)
@@ -37,4 +37,4 @@ composer create-project attogram/attogram-database modules/_attogram_database
  * `tables/event.sql` - Event log table  
 
  * Misc:
-  * `tests/` - phpunit tests
+  * `tests/*` - phpunit tests
