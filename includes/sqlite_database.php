@@ -1,11 +1,11 @@
-<?php  // Attogram Framework - Database Module - sqlite_database class v0.3.9
+<?php  // Attogram Framework - Database Module - SqliteDatabase class v0.3.10
 
 namespace Attogram;
 
 /**
- * Attogram sqlite_database
+ * Attogram SqliteDatabase
  */
-class sqlite_database implements attogram_database
+class SqliteDatabase implements AttogramDatabase
 {
 
     public $databaseName;      // (string) path/filename of the SQLite database file
@@ -25,7 +25,7 @@ class sqlite_database implements attogram_database
       $this->databaseName = $databaseName;
       $this->modulesDirectory = $modulesDirectory;
       $this->log = $log;
-      $this->log->debug('START sqlite_database');
+      $this->log->debug('START SqliteDatabase');
     }
 
     /**
@@ -165,14 +165,14 @@ class sqlite_database implements attogram_database
       if( isset($this->tables) && is_array($this->tables) ) {
         return true;
       }
-      $dirs = attogram_fs::getAllSubdirectories( $this->modulesDirectory, 'tables');
+      $dirs = AttogramFS::getAllSubdirectories( $this->modulesDirectory, 'tables');
       if( !$dirs ) {
         $this->log->debug('GET_TABLES: No module tables found');
         return false;
       }
       $this->tables = array();
       foreach( $dirs as $d ) {
-        foreach( array_diff(scandir($d), attogram_fs::get_skip_files() ) as $f ) {
+        foreach( array_diff(scandir($d), AttogramFS::get_skip_files() ) as $f ) {
           $file = $d . '/' . $f;
           if( !is_file($file) || !is_readable($file) || !preg_match('/\.sql$/',$file) ) {
             continue; // .sql files only
@@ -423,4 +423,4 @@ class sqlite_database implements attogram_database
       return array( $limit, $offset );
     }
 
-} // END of class sqlite_database
+} // END of class SqliteDatabase

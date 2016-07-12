@@ -1,4 +1,4 @@
-# Attogram Framework Database Module v0.0.3
+# Attogram Framework Database Module v0.0.4
 
 [![Build Status](https://travis-ci.org/attogram/attogram-database.svg?branch=master)](https://travis-ci.org/attogram/attogram-database)
 [![Latest Stable Version](https://poser.pugx.org/attogram/attogram-database/v/stable)](https://packagist.org/packages/attogram/attogram-database)
@@ -16,7 +16,7 @@ This is the Database Module for the [Attogram Framework](https://github.com/atto
 * You already installed the [Attogram Framework](https://github.com/attogram/attogram), didn't you?
 * Goto the top level of your install, then run:
 ```
-composer create-project attogram/attogram-database modules/_attogram_database
+composer create-project attogram/attogram-database modules/_AttogramDatabase
 ```
 
 # Database Module contents

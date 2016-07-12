@@ -1,11 +1,11 @@
-<?php  // Attogram Framework - Database Module - attogram_database interface 0.0.3
+<?php  // Attogram Framework - Database Module - AttogramDatabase interface 0.0.4
 
 namespace Attogram;
 
 /**
  * Attogram Database Object Interface
  */
-interface attogram_database
+interface AttogramDatabase
 {
 
   /**
@@ -30,4 +30,4 @@ interface attogram_database
    */
   public function init_db();
 
-} // end interface attogram_database
+} // end interface AttogramDatabase
