@@ -1,4 +1,4 @@
-<?php  // Attogram Framework - Database Module - SqliteDatabase class v0.3.10
+<?php  // Attogram Framework - Database Module - SqliteDatabase class v0.3.11
 
 namespace Attogram;
 
