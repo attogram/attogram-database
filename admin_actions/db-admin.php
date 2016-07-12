@@ -1,4 +1,4 @@
-<?php // Attogram Framework - Database Module - phpLiteAdmin mod v0.0.4
+<?php // Attogram Framework - Database Module - phpLiteAdmin mod v0.0.5
 
 //
 //	Project: phpLiteAdmin (https://bitbucket.org/phpliteadmin/public)
@@ -924,7 +924,7 @@ if ($auth->isAuthorized())
 //- HTML: output starts here
 header('Content-Type: text/html; charset=utf-8');
 
-$this->page_header('Attogram - Admin - Database'); /* Attogram */
+$this->pageHeader('Attogram - Admin - Database'); /* Attogram */
 
 //<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 //<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -4142,7 +4142,7 @@ echo "</td></tr></table>";
 $db->close(); //close the database
 
 //Attogram
-$this->page_footer();
+$this->pageFooter();
 //echo "</body>";
 //echo "</html>";
 
