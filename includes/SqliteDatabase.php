@@ -165,14 +165,14 @@ class SqliteDatabase implements AttogramDatabase
       if( isset($this->tables) && is_array($this->tables) ) {
         return true;
       }
-      $dirs = AttogramFS::getAllSubdirectories( $this->modulesDirectory, 'tables');
+      $dirs = $this->getAllSubdirectories( $this->modulesDirectory, 'tables');
       if( !$dirs ) {
         $this->log->debug('GET_TABLES: No module tables found');
         return false;
       }
       $this->tables = array();
       foreach( $dirs as $d ) {
-        foreach( array_diff(scandir($d), AttogramFS::getSkipFiles() ) as $f ) {
+        foreach( array_diff(scandir($d), $this->getSkipFiles() ) as $f ) {
           $file = $d . '/' . $f;
           if( !is_file($file) || !is_readable($file) || !preg_match('/\.sql$/',$file) ) {
             continue; // .sql files only
