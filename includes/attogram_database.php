@@ -1,6 +1,6 @@
 <?php  // Attogram Framework - Database Module - attogram_database interface 0.0.3
 
-namespace attogram;
+namespace Attogram;
 
 /**
  * Attogram Database Object Interface

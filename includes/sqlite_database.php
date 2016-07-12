@@ -1,6 +1,6 @@
 <?php  // Attogram Framework - Database Module - sqlite_database class v0.3.9
 
-namespace attogram;
+namespace Attogram;
 
 /**
  * Attogram sqlite_database

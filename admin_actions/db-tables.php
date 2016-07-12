@@ -1,6 +1,6 @@
 <?php // Attogram Framework - Database Module - Database Tables v0.0.54
 
-namespace attogram;
+namespace Attogram;
 
 $title = 'Database Tables';
 $this->pageHeader($title );

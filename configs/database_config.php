@@ -1,6 +1,6 @@
 <?php // Attogram Framework - Database module - database config v0.0.4
 
-namespace attogram;
+namespace Attogram;
 
 global $config;
 
