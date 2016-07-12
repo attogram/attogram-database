@@ -2,11 +2,11 @@
 
 namespace Attogram;
 
-list( $limit, $offset ) = $this->database->get_set_limit_and_offset(
-  $default_limit  = 1000,
-  $default_offset = 0,
-  $max_limit      = 10000,
-  $min_limit      = 10
+list( $limit, $offset ) = $this->database->getSetLimitAndOffset(
+  $defaultLimit  = 1000,
+  $defaultOffset = 0,
+  $maxLimit      = 10000,
+  $minLimit      = 10
 );
 
 $sql = 'SELECT * FROM event ORDER BY id DESC LIMIT ' . $limit;

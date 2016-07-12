@@ -28,6 +28,6 @@ interface AttogramDatabase
    * Initialize the database connection
    * @return bool true on successful initialization, false on error
    */
-  public function init_db();
+  public function initDB();
 
 } // end interface AttogramDatabase
