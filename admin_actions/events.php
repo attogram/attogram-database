@@ -1,8 +1,8 @@
-<?php // Attogram Framework - Base Module - Events log v0.1.2
+<?php // Attogram Framework - Base Module - Events log v0.1.3
 
 namespace Attogram;
 
-list( $limit, $offset ) = $this->db->get_set_limit_and_offset(
+list( $limit, $offset ) = $this->database->get_set_limit_and_offset(
   $default_limit  = 1000,
   $default_offset = 0,
   $max_limit      = 10000,
@@ -14,15 +14,15 @@ if( $offset ) {
   $sql .= ' OFFSET ' . $offset;
 }
 
-$events = $this->db->query($sql);
+$events = $this->database->query($sql);
 
-$count = $this->db->get_table_count('event');
+$count = $this->database->get_table_count('event');
 
 $this->page_header('⌚ Event Log');
 
 print '<div class="container"><h1 class="squished">⌚ Event Log</h1>';
 
-print $this->db->pager( $count, $limit, $offset );
+print $this->database->pager( $count, $limit, $offset );
 
 foreach( $events as $v ) {
   $vm = explode( ' ', $v['message'] );
@@ -40,7 +40,7 @@ foreach( $events as $v ) {
   . '</div>';
 }
 
-print $this->db->pager( $count, $limit, $offset );
+print $this->database->pager( $count, $limit, $offset );
 
 print '</div>';
 

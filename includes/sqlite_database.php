@@ -1,4 +1,4 @@
-<?php  // Attogram Framework - Database Module - sqlite_database class v0.3.6
+<?php  // Attogram Framework - Database Module - sqlite_database class v0.3.7
 
 namespace Attogram;
 
@@ -22,7 +22,7 @@ class sqlite_database implements attogram_database
    */
   public function __construct( $db_name, $modules_directory, $log )
   {
-    $this->db_name = $db_name;
+    $this->$db_name = $db_name;
     $this->modules_directory = $modules_directory;
     $this->log = $log;
     $this->log->debug('START sqlite_database');
@@ -34,7 +34,7 @@ class sqlite_database implements attogram_database
    */
   public function init_db()
   {
-    if( is_object($this->db) && get_class($this->db) == 'PDO' ) {
+    if( is_object($this->database) && get_class($this->database) == 'PDO' ) {
       return true; // if PDO database object already set
     }
     if( !in_array('sqlite', \PDO::getAvailableDrivers() ) ) {
@@ -49,13 +49,13 @@ class sqlite_database implements attogram_database
       $this->log->debug('init_db: NOTICE: creating database file: ' . $this->db_name);
     }
     try {
-      $this->db = new \PDO('sqlite:'. $this->db_name);
+      $this->database = new \PDO('sqlite:'. $this->db_name);
     } catch(\PDOException $e) {
       $this->log->error('init_db: error opening database: ' . $e->getMessage());
       return false;
     }
     $this->log->debug("init_db: Got SQLite database: $this->db_name");
-    return true; // got database, into $this->db
+    return true; // got database, into $this->database
   }
 
   /**
@@ -76,7 +76,7 @@ class sqlite_database implements attogram_database
     }
     $statement = $this->query_prepare($sql);
     if( !$statement ) {
-      list($sqlstate, $error_code, $error_string) = @$this->db->errorInfo();
+      list($sqlstate, $error_code, $error_string) = @$this->database->errorInfo();
       $this->log->error("QUERY: prepare failed: $sqlstate:$error_code:$error_string");
       return array();
     }
@@ -89,7 +89,7 @@ class sqlite_database implements attogram_database
       return array();
     }
     $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
-    if( !$result && $this->db->errorCode() != '00000') { // query failed
+    if( !$result && $this->database->errorCode() != '00000') { // query failed
       $this->log->error('QUERY: Query failed');
       $result = array();
     }
@@ -115,7 +115,7 @@ class sqlite_database implements attogram_database
     }
     $statement = $this->query_prepare($sql);
     if( !$statement ) {
-      list($sqlstate, $error_code, $error_string) = @$this->db->errorInfo();
+      list($sqlstate, $error_code, $error_string) = @$this->database->errorInfo();
       $this->log->error("QUERYB: prepare failed: $sqlstate:$error_code:$error_string");
       return false;
     }
@@ -123,7 +123,7 @@ class sqlite_database implements attogram_database
       $statement->bindParam($x[0], $x[1]);
     }
     if( !$statement->execute() ) {
-      list($sqlstate, $error_code, $error_string) = @$this->db->errorInfo();
+      list($sqlstate, $error_code, $error_string) = @$this->database->errorInfo();
       $this->log->error("QUERYB: execute failed: $sqlstate:$error_code:$error_string");
       return false;
     }
@@ -138,15 +138,15 @@ class sqlite_database implements attogram_database
    */
   public function query_prepare( $sql )
   {
-    $statement = $this->db->prepare($sql);
+    $statement = $this->database->prepare($sql);
     if( $statement ) { return $statement; }
-    list($sqlstate, $error_code, $error_string) = @$this->db->errorInfo();
+    list($sqlstate, $error_code, $error_string) = @$this->database->errorInfo();
     $this->log->error("QUERY_PREPARE: Can not prepare sql: $sqlstate:$error_code:$error_string");
     if( $sqlstate == 'HY000' && $error_code == '1' && preg_match('/^no such table/', $error_string) ) { // table not found
       $table = str_replace('no such table: ', '', $error_string); // get table name
       if( $this->create_table($table) ) { // create table
         $this->log->notice("QUERY_PREPARE: Created table: $table");
-        $statement = $this->db->prepare($sql);
+        $statement = $this->database->prepare($sql);
         if( $statement ) { return $statement; } // try again
         $this->log->error('QUERY_PREPARE: Still can not prepare sql');
         return false;

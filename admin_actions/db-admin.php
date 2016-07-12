@@ -1,4 +1,4 @@
-<?php // Attogram Framework - Database Module - phpLiteAdmin mod v0.0.2
+<?php // Attogram Framework - Database Module - phpLiteAdmin mod v0.0.3
 
 //
 //	Project: phpLiteAdmin (https://bitbucket.org/phpliteadmin/public)
@@ -4281,22 +4281,22 @@ class Database
 			switch(true)
 			{
 				case (FORCETYPE=="PDO" || ((FORCETYPE==false || $ver!=-1) && class_exists("PDO") && ($ver==-1 || $ver==3))):
-					$this->db = new PDO("sqlite:".$this->data['path']);
-					if($this->db!=NULL)
+					$this->database = new PDO("sqlite:".$this->data['path']);
+					if($this->database!=NULL)
 					{
 						$this->type = "PDO";
 						break;
 					}
 				case (FORCETYPE=="SQLite3" || ((FORCETYPE==false || $ver!=-1) && class_exists("SQLite3") && ($ver==-1 || $ver==3))):
-					$this->db = new SQLite3($this->data['path']);
-					if($this->db!=NULL)
+					$this->database = new SQLite3($this->data['path']);
+					if($this->database!=NULL)
 					{
 						$this->type = "SQLite3";
 						break;
 					}
 				case (FORCETYPE=="SQLiteDatabase" || ((FORCETYPE==false || $ver!=-1) && class_exists("SQLiteDatabase") && ($ver==-1 || $ver==2))):
-					$this->db = new SQLiteDatabase($this->data['path']);
-					if($this->db!=NULL)
+					$this->database = new SQLiteDatabase($this->data['path']);
+					if($this->database!=NULL)
 					{
 						$this->type = "SQLiteDatabase";
 						break;
@@ -4321,11 +4321,11 @@ class Database
 
 		if ($this->type == 'PDO') {
 			foreach ($ids as $id) {
-				$this->db->sqliteCreateFunction($id, $id, 1);
+				$this->database->sqliteCreateFunction($id, $id, 1);
 			}
 		} else { // type is Sqlite3 or SQLiteDatabase
 			foreach ($ids as $id) {
-				$this->db->createFunction($id, $id, 1);
+				$this->database->createFunction($id, $id, 1);
 			}
 		}
 	}
@@ -4340,16 +4340,16 @@ class Database
 		}
 		else if($this->type=="PDO")
 		{
-			$e = $this->db->errorInfo();
+			$e = $this->database->errorInfo();
 			return $e[2];
 		}
 		else if($this->type=="SQLite3")
 		{
-			return $this->db->lastErrorMsg();
+			return $this->database->lastErrorMsg();
 		}
 		else
 		{
-			return sqlite_error_string($this->db->lastError());
+			return sqlite_error_string($this->database->lastError());
 		}
 	}
 
@@ -4388,7 +4388,7 @@ class Database
 
 	public function __destruct()
 	{
-		if($this->db)
+		if($this->database)
 			$this->close();
 	}
 
@@ -4463,9 +4463,9 @@ class Database
 			else
 				return $this->lastResult->rowCount();
 		else if($this->type=="SQLite3")
-			return $this->db->changes();
+			return $this->database->changes();
 		else if($this->type=="SQLiteDatabase")
-			return $this->db->changes();
+			return $this->database->changes();
 	}
 
 	public function getTypeOfTable($table)
@@ -4477,11 +4477,11 @@ class Database
 	public function close()
 	{
 		if($this->type=="PDO")
-			$this->db = NULL;
+			$this->database = NULL;
 		else if($this->type=="SQLite3")
-			$this->db->close();
+			$this->database->close();
 		else if($this->type=="SQLiteDatabase")
-			$this->db = NULL;
+			$this->database = NULL;
 	}
 
 	public function beginTransaction()
@@ -4519,7 +4519,7 @@ class Database
 		}
 		else //this query is normal - proceed as normal
 		{
-			$result = $this->db->query($query);
+			$result = $this->database->query($query);
 			if($debug) echo "<span title='".htmlencode($query)."' onclick='this.innerHTML=\"".htmlencode(str_replace('"','\"',$query))."\"' style='cursor:pointer'>SQL?</span><br />";
 		}
 		if($result===false)
@@ -4533,11 +4533,11 @@ class Database
 	{
 		$result = $this->query($query);
 		if($this->type=="PDO")
-			return $this->db->lastInsertId();
+			return $this->database->lastInsertId();
 		else if($this->type=="SQLite3")
-			return $this->db->lastInsertRowID();
+			return $this->database->lastInsertRowID();
 		else if($this->type=="SQLiteDatabase")
-			return $this->db->lastInsertRowid();
+			return $this->database->lastInsertRowid();
 	}
 
 	//returns an array for SELECT
@@ -5098,11 +5098,11 @@ class Database
 	public function multiQuery($query)
 	{
 		if($this->type=="PDO")
-			$success = $this->db->exec($query);
+			$success = $this->database->exec($query);
 		else if($this->type=="SQLite3")
-			$success = $this->db->exec($query);
+			$success = $this->database->exec($query);
 		else
-			$success = $this->db->queryExec($query, $error);
+			$success = $this->database->queryExec($query, $error);
 		return $success;
 	}
 
@@ -5188,11 +5188,11 @@ class Database
 		if($this->type=="PDO")
 		{
 			// PDO quote() escapes and adds quotes
-			return $this->db->quote($value);
+			return $this->database->quote($value);
 		}
 		else if($this->type=="SQLite3")
 		{
-			return "'".$this->db->escapeString($value)."'";
+			return "'".$this->database->escapeString($value)."'";
 		}
 		else
 		{
