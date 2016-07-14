@@ -1,4 +1,4 @@
-# Attogram Framework Database Module v0.0.3
+# Attogram Framework Database Module v0.0.4
 
 [![Build Status](https://travis-ci.org/attogram/attogram-database.svg?branch=master)](https://travis-ci.org/attogram/attogram-database)
 [![Latest Stable Version](https://poser.pugx.org/attogram/attogram-database/v/stable)](https://packagist.org/packages/attogram/attogram-database)
