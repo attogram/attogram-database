@@ -1,4 +1,4 @@
-<?php  // Attogram Framework - Database Module - SqliteDatabase class v0.3.14
+<?php  // Attogram Framework - Database Module - SqliteDatabase class v0.3.15
 
 namespace Attogram;
 
@@ -211,7 +211,7 @@ class SqliteDatabase implements AttogramDatabase
      * @param string $where    (optional) The SQL WHERE clause to add
      * @return int             The number of entries
      */
-    public function get_table_count( $table, $idField = 'id', $where = '' )
+    public function getTableCount( $table, $idField = 'id', $where = '' )
     {
       $sql = 'SELECT count(' . $idField . ') AS count FROM ' . $table;
       if( $where ) {
@@ -342,15 +342,15 @@ class SqliteDatabase implements AttogramDatabase
         $offset = $count - $limit;
       }
       $startCount = $offset + 1;
-      $end_count = $offset + $limit;
-      if( !$end_count ) {
+      $endCount = $offset + $limit;
+      if( !$endCount ) {
         $startCount = 0;
       }
-      if( $end_count > $count ) {
-        $end_count = $count;
+      if( $endCount > $count ) {
+        $endCount = $count;
       }
 
-      $result = '<p class="small">Showing # ' . "<strong>$startCount</strong> - <strong>$end_count</strong> of <code>$count</code> results</p>";
+      $result = '<p class="small">Showing # ' . "<strong>$startCount</strong> - <strong>$endCount</strong> of <code>$count</code> results</p>";
 
       if( $limit <= 0 ) {
         $totalPages = 0;

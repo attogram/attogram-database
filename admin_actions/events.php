@@ -1,4 +1,4 @@
-<?php // Attogram Framework - Base Module - Events log v0.1.5
+<?php // Attogram Framework - Base Module - Events log v0.1.6
 
 namespace Attogram;
 
@@ -16,7 +16,7 @@ if( $offset ) {
 
 $events = $this->database->query($sql);
 
-$count = $this->database->get_table_count('event');
+$count = $this->database->getTableCount('event');
 
 $this->pageHeader('⌚ Event Log');
 
