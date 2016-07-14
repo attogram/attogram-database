@@ -1,4 +1,4 @@
-<?php  // Attogram Framework - Database Module - SqliteDatabase class v0.3.12
+<?php  // Attogram Framework - Database Module - SqliteDatabase class v0.3.13
 
 namespace Attogram;
 
@@ -119,8 +119,8 @@ class SqliteDatabase implements AttogramDatabase
         $this->log->error("QUERYB: prepare failed: $sqlstate:$errorCode:$errorString");
         return false;
       }
-      while( $x = each($bind) ) {
-        $statement->bindParam($x[0], $x[1]);
+      while( $binder = each($bind) ) {
+        $statement->bindParam($binder[0], $binder[1]);
       }
       if( !$statement->execute() ) {
         list($sqlstate, $errorCode, $errorString) = @$this->database->errorInfo();
@@ -160,7 +160,7 @@ class SqliteDatabase implements AttogramDatabase
      * Get the table definitions from all the modules
      * @return boolean
      */
-    public function getTables()
+    public function loadTableDefinitions()
     {
       if( isset($this->tables) && is_array($this->tables) ) {
         return true;
@@ -192,7 +192,7 @@ class SqliteDatabase implements AttogramDatabase
      */
     public function createTable( $table )
     {
-      $this->getTables();
+      $this->loadTableDefinitions();
       if( !isset($this->tables[$table]) ) {
         $this->log->error("CREATE_TABLE: Unknown table: $table");
         return false;
@@ -264,14 +264,12 @@ class SqliteDatabase implements AttogramDatabase
       }
       $result = $this->query($sql);
 
+      $adminCreate = $adminEdit = $adminDelete = '';
       if( $showEdit ) {
         $adminCreate = '../db-admin/?table=' . $table .'&amp;action=row_create';
         $adminEdit = '../db-admin/?table=' . $table . '&amp;action=row_editordelete&amp;type=edit&amp;pk='; // [#ID]
         $adminDelete = '../db-admin/?table=' . $table . '&amp;action=row_editordelete&amp;type=delete&amp;pk='; // [#ID]
-      } else {
-        $adminCreate = $adminEdit = $adminDelete = '';
       }
-
       print '<div class="container">';
       print $this->pager( $count, $limit, $offset );
 
