@@ -207,7 +207,7 @@ class SqliteDatabase implements AttogramDatabase
     /**
      * Get the count of entries in a table
      * @param string $table    The table name
-     * @param string $idField (optional) The id field used for counting
+     * @param string $idField  (optional) The id field used for counting
      * @param string $where    (optional) The SQL WHERE clause to add
      * @return int             The number of entries
      */
