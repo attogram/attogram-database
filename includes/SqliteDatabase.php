@@ -1,4 +1,4 @@
-<?php  // Attogram Framework - Database Module - SqliteDatabase class v0.3.13
+<?php  // Attogram Framework - Database Module - SqliteDatabase class v0.3.14
 
 namespace Attogram;
 
@@ -364,17 +364,14 @@ class SqliteDatabase implements AttogramDatabase
       if( $totalPages ) {
         $result .= '<ul class="pagination pagination-sm squished">';
         $pOffset = 0;
+        $urlStart = '?';
         if( $preQS ) {
-          $urlStart = '?' . $preQS . '&';
-        } else {
-          $urlStart = '?';
+          $urlStart .= $preQS . '&amp;';
         }
-
         for( $x = 0; $x < $totalPages; $x++ ) {
+          $active = '';
           if( $startCount == $pOffset + 1 ) {
             $active = ' class="active"';
-          } else {
-            $active = '';
           }
           $url = $urlStart . 'l=' . $limit . '&amp;o=' . $pOffset;
           $result .= '<li' . $active . '><a href="' . $url . '">' . ($x+1) . '</a></li>';
@@ -398,16 +395,14 @@ class SqliteDatabase implements AttogramDatabase
     public function getSetLimitAndOffset( $defaultLimit = 1000, $defaultOffset = 0, $maxLimit = 5000, $minLimit = 100 )
     {
       //$this->log->debug("getSetLimitAndOffset: default_limit=$defaultLimit default_offset=$defaultOffset max_limit=$maxLimit min_limit=$minLimit ");
+      $limit = $defaultLimit;
+      $offset = $defaultOffset;
       if( isset($_GET['l']) && $_GET['l'] ) { // LIMIT
         $limit = (int)$_GET['l'];
+        $offset = $defaultOffset;
         if( isset($_GET['o']) && $_GET['o'] ) { // OFFSET
           $offset = (int)$_GET['o'];
-        } else {
-          $offset = $defaultOffset;
         }
-      } else {
-        $limit = $defaultLimit;
-        $offset = $defaultOffset;
       }
       if( $limit > $maxLimit ) {
         $this->log->notice("getSetLimitAndOffset: limit=$limit too large.  Setting to max limit=$maxLimit");
