@@ -1,4 +1,4 @@
-<?php // Attogram Framework - Database Module - Database Tables v0.0.8
+<?php // Attogram Framework - Database Module - Database Tables v0.0.9
 
 namespace Attogram;
 
@@ -14,7 +14,8 @@ if (!$this->database->loadTableDefinitions() || !$this->database->tables) {
 
 foreach ($this->database->tables AS $tableName => $table_definition) {
     $count = $this->database->getTableCount($tableName);
-    print '<p><strong>$tableName</strong> table: <code>'.$count.'</code> entries'
+    $table
+    print '<p><h2 style="display:inline;">'.$tableName.'</h3><br /><code>'.$count.'</code> entries'
         . '<textarea class="form-control" rows="8">'.$table_definition.'</textarea></p>';
 }
 
