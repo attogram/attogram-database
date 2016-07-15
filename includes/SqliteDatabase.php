@@ -1,4 +1,4 @@
-<?php  // Attogram Framework - Database Module - SqliteDatabase class v0.3.15
+<?php  // Attogram Framework - Database Module - SqliteDatabase class v0.3.16
 
 namespace Attogram;
 
@@ -165,14 +165,14 @@ class SqliteDatabase implements AttogramDatabase
       if( isset($this->tables) && is_array($this->tables) ) {
         return true;
       }
-      $dirs = $this->getAllSubdirectories( $this->modulesDirectory, 'tables');
+      $dirs = Attogram::getAllSubdirectories( $this->modulesDirectory, 'tables');
       if( !$dirs ) {
         $this->log->debug('GET_TABLES: No module tables found');
         return false;
       }
       $this->tables = array();
       foreach( $dirs as $d ) {
-        foreach( array_diff(scandir($d), $this->getSkipFiles() ) as $f ) {
+        foreach( array_diff(scandir($d), Attogram::getSkipFiles() ) as $f ) {
           $file = $d . '/' . $f;
           if( !is_file($file) || !is_readable($file) || !preg_match('/\.sql$/',$file) ) {
             continue; // .sql files only
