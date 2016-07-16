@@ -1,4 +1,4 @@
-<?php  // Attogram Framework - Database Module - SqliteDatabase class v0.3.16
+<?php  // Attogram Framework - Database Module - SqliteDatabase class v0.3.17
 
 namespace Attogram;
 
@@ -321,7 +321,7 @@ class SqliteDatabase implements AttogramDatabase
         }
         print '</tr>';
       }
-      print '</tbody></table><div>';
+      print '</tbody></table></div>';
     }
 
     /**
