@@ -1,4 +1,4 @@
-# Attogram Framework Database Module v0.0.4
+# Attogram Framework Database Module v0.0.5
 
 [![Build Status](https://travis-ci.org/attogram/attogram-database.svg?branch=master)](https://travis-ci.org/attogram/attogram-database)
 [![Latest Stable Version](https://poser.pugx.org/attogram/attogram-database/v/stable)](https://packagist.org/packages/attogram/attogram-database)
@@ -12,29 +12,35 @@
 
 This is the Database Module for the [Attogram Framework](https://github.com/attogram/attogram).
 
-# Installing the Database Module
+## Installing the Database Module
+
 * You already installed the [Attogram Framework](https://github.com/attogram/attogram), didn't you?
 * Goto the top level of your install, then run:
 ```
 composer create-project attogram/attogram-database modules/_AttogramDatabase
 ```
 
-# Database Module contents
+## Database Module contents
 
 * Admin Actions:
+
  * `admin_actions/db-admin.php` - phpliteadmin database web admin
  * `admin_actions/db-tables.php` - display info about tables
  * `admin_actions/events.php` - Event log viewer
 
 * Configurations:
+
  * `configs/database_config.php` - config for db file
 
 * Includes:
+
  * `includes/AttogramDatabase.php` - Attogram database interface
  * `includes/SqliteDatabase.php` - SQLite helper Attogram database object
 
 * Database Tables:
+
  * `tables/event.sql` - Event log table  
 
- * Misc:
-  * `tests/*` - phpunit tests
+* Misc:
+
+ * `tests/*` - phpunit tests
