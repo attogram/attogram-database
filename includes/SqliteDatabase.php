@@ -1,4 +1,4 @@
-<?php  // Attogram Framework - Database Module - SqliteDatabase class v0.3.17
+<?php  // Attogram Framework - Database Module - SqliteDatabase class v0.3.18
 
 namespace Attogram;
 
@@ -109,7 +109,7 @@ class SqliteDatabase implements AttogramDatabase
         $this->log->debug('QUERYB: backtrace='.(($btr = debug_backtrace())
             ? $btr[1]['function'] : '?').' sql='.$sql);
         if ($bind) {
-            $this->log->debug('QUERYB: bind=',$bind);
+            $this->log->debug('QUERYB: bind=', $bind);
         }
         if (!$this->initDB()) {
             $this->log->error('QUERYB: Can not get database');
@@ -147,7 +147,7 @@ class SqliteDatabase implements AttogramDatabase
         list($sqlstate, $errorCode, $errorString) = @$this->database->errorInfo();
         $this->log->error("QUERY_PREPARE: Can not prepare sql: $sqlstate:$errorCode:$errorString");
         // table not found
-        if ($sqlstate == 'HY000' && $errorCode == '1' && preg_match('/^no such table/', $errorString) ) {
+        if ($sqlstate == 'HY000' && $errorCode == '1' && preg_match('/^no such table/', $errorString)) {
             // get table name
             $table = str_replace('no such table: ', '', $errorString);
             // create table
@@ -181,7 +181,7 @@ class SqliteDatabase implements AttogramDatabase
         }
         $this->tables = array();
         foreach ($dirs as $d) {
-            foreach (array_diff(scandir($d), Attogram::getSkipFiles() ) as $f) {
+            foreach (array_diff(scandir($d), Attogram::getSkipFiles()) as $f) {
                 $file = $d.'/'.$f;
                 if (!is_file($file) || !is_readable($file) || !preg_match('/\.sql$/', $file)) {
                     continue; // .sql files only
@@ -206,7 +206,7 @@ class SqliteDatabase implements AttogramDatabase
             $this->log->error("CREATE_TABLE: Unknown table: $table");
             return false;
         }
-        if (!$this->queryb( $this->tables[$table])) {
+        if (!$this->queryb($this->tables[$table])) {
             $this->log->error("CREATE_TABLE: failed to create: $table");
             return false;
         }
@@ -254,11 +254,11 @@ class SqliteDatabase implements AttogramDatabase
         $table,
         $tableId,
         $nameSingular,
-        $namePlural,
+        $namePlural, // TODO - remove unused
         $publicLink,
         array $col,
         $sql,
-        $adminLink,
+        $adminLink, // TODO - remove unused
         $showEdit,
         $perPage
     ) {
@@ -313,11 +313,11 @@ class SqliteDatabase implements AttogramDatabase
             print '<th>'.$column['title'].'</th>';
         }
         if ($showEdit) {
-          print '<th><nobr><small>'
-              .'edit <span class="glyphicon glyphicon-wrench" title="edit"></span>'
-              .' &nbsp; '
-              .'<span class="glyphicon glyphicon-remove-circle" title="delete"></span> delete'
-              .'</small></nobr></th>';
+            print '<th><nobr><small>'
+                .'edit <span class="glyphicon glyphicon-wrench" title="edit"></span>'
+                .' &nbsp; '
+                .'<span class="glyphicon glyphicon-remove-circle" title="delete"></span> delete'
+                .'</small></nobr></th>';
         }
         print '</tr></thead><tbody>';
 
@@ -368,13 +368,12 @@ class SqliteDatabase implements AttogramDatabase
 
         $result = '<p class="small">Showing # '."<strong>$startCount</strong> - <strong>$endCount</strong> of <code>$count</code> results</p>";
 
+        $totalPages = ceil($count / $limit);
+        if ($totalPages == 1) {
+            $totalPages = 0;
+        }
         if ($limit <= 0) {
             $totalPages = 0;
-        } else {
-            $totalPages = ceil($count / $limit);
-            if ($totalPages == 1) {
-                $totalPages = 0;
-            }
         }
 
         if ($totalPages) {
