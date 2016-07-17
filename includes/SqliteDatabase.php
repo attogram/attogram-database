@@ -324,7 +324,7 @@ class SqliteDatabase implements AttogramDatabase
         foreach ($result as $row) {
             print '<tr>';
             foreach ($col as $column) {
-                print '<td>'.htmlentities($row[$column['key']]).'</td>';
+                print '<td>'.htmlentities($row[$column['key']]).'</td>'; // TODO better filter, attogram webDisplay?
             }
             if ($showEdit) {
                 print '<td> &nbsp; &nbsp; '
