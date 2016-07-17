@@ -10,37 +10,38 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/504e180dee5e460db61335319b5de859)](https://www.codacy.com/app/attogram-project/attogram-database?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=attogram/attogram-database&amp;utm_campaign=Badge_Grade)
 [`[CHANGELOG]`](https://github.com/attogram/attogram-database/blob/master/CHANGELOG.md)
 
-This is the Database Module for the [Attogram Framework](https://github.com/attogram/attogram).
+This is the [Database Module](https://github.com/attogram/attogram-database)
+for the [Attogram Framework](https://github.com/attogram/attogram).
 
 ## Installing the Database Module
 
 * You already installed the [Attogram Framework](https://github.com/attogram/attogram), didn't you?
 * Goto the top level of your install, then run:
+
 ```
 composer create-project attogram/attogram-database modules/_AttogramDatabase
 ```
 
 ## Database Module contents
 
-* Admin Actions:
+### Admin Actions
 
- * `admin_actions/db-admin.php` - phpliteadmin database web admin
- * `admin_actions/db-tables.php` - display info about tables
- * `admin_actions/events.php` - Event log viewer
+* `admin_actions/db-admin.php` - phpliteadmin database web admin
+* `admin_actions/db-tables.php` - display info about tables
+* `admin_actions/events.php` - Event log viewer
 
-* Configurations:
+### Configurations
 
- * `configs/database_config.php` - config for db file
+* `configs/database_config.php` - config for db file
 
-* Includes:
+### Includes
 
- * `includes/AttogramDatabase.php` - Attogram database interface
- * `includes/SqliteDatabase.php` - SQLite helper Attogram database object
+* `includes/SqliteDatabase.php` - SQLite Attogram database object
 
-* Database Tables:
+### Database Tables
 
- * `tables/event.sql` - Event log table  
+* `tables/event.sql` - Event log table  
 
-* Misc:
+### Misc
 
- * `tests/*` - phpunit tests
+* `tests/*` - phpunit tests

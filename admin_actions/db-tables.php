@@ -1,15 +1,16 @@
-<?php // Attogram Framework - Database Module - Database Tables v0.0.10
+<?php
+// Attogram Framework - Database Module - Database Tables v0.0.11
 
 namespace Attogram;
 
 $title = 'Database Tables';
 $this->pageHeader($title);
-print '<div class="container"><h1 class="squished">' . $title . '</h1><hr />';
+print '<div class="container"><h1 class="squished">'.$title.'</h1><hr />';
 
 if (!$this->database->loadTableDefinitions() || !$this->database->tables) {
     print 'ERROR: no table definitions found.</div>';
     $this->pageFooter();
-    exit;
+    return;
 }
 
 foreach ($this->database->tables AS $tableName => $tableDefinition) {

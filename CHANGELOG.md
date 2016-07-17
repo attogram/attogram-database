@@ -1,7 +1,7 @@
 # CHANGELOG: Attogram Database Module
 
 - Repository: <https://github.com/attogram/attogram-database>
-- Click version number to view a diff comparison of changes since the previous release
+- Click version numbers to view a diff of changes since the previous release
 
 ## [Unreleased](https://github.com/attogram/attogram-database/compare/v0.0.4...HEAD)
 
