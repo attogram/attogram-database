@@ -20,12 +20,12 @@ class SqliteDatabase implements AttogramDatabase
      * @param object $log psr3 logger object
      * @return void
      */
-    public function __construct( $databaseName, $modulesDirectory, $log )
+    public function __construct($databaseName, $modulesDirectory, $log)
     {
-      $this->databaseName = $databaseName;
-      $this->modulesDirectory = $modulesDirectory;
-      $this->log = $log;
-      $this->log->debug('START SqliteDatabase');
+        $this->databaseName = $databaseName;
+        $this->modulesDirectory = $modulesDirectory;
+        $this->log = $log;
+        $this->log->debug('START SqliteDatabase');
     }
 
     /**
@@ -64,37 +64,38 @@ class SqliteDatabase implements AttogramDatabase
      * @param  array  $bind (optional) Array of name/values to bind into the SQL query
      * @return array        An array of results
      */
-    public function query( $sql, array $bind = array() )
+    public function query($sql, array $bind = array())
     {
-      $this->log->debug('QUERY: backtrace=' . ( ($btr = debug_backtrace()) ? $btr[1]['function'] : '?' ) . ' sql=' . $sql);
-      if( $bind ) {
-        $this->log->debug('QUERY: bind=',$bind);
-      }
-      if( !$this->initDB() ) {
-        $this->log->error('QUERY: Can not get database');
-        return array();
-      }
-      $statement = $this->queryPrepare($sql);
-      if( !$statement ) {
-        list($sqlstate, $errorCode, $errorString) = @$this->database->errorInfo();
-        $this->log->error("QUERY: prepare failed: $sqlstate:$errorCode:$errorString");
-        return array();
-      }
-      while( $binders = each($bind) ) {
-        $statement->bindParam( $binders[0], $binders[1] );
-        // dev: Warning: PDOStatement::bindParam(): SQLSTATE[HY093]: Invalid parameter number: Columns/Parameters are 1-based
-      }
-      if( !$statement->execute() ) {
-        $this->log->error('QUERY: Can not execute query');
-        return array();
-      }
-      $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
-      if( !$result && $this->database->errorCode() != '00000') { // query failed
-        $this->log->error('QUERY: Query failed');
-        $result = array();
-      }
-      $this->log->debug('QUERY: result size=' . sizeof($result) );
-      return $result;
+        $this->log->debug('QUERY: backtrace='.(($btr = debug_backtrace())
+            ? $btr[1]['function'] : '?' ).' sql='.$sql);
+        if ($bind) {
+            $this->log->debug('QUERY: bind=', $bind);
+        }
+        if (!$this->initDB()) {
+            $this->log->error('QUERY: Can not get database');
+            return array();
+        }
+        $statement = $this->queryPrepare($sql);
+        if (!$statement) {
+            list($sqlstate, $errorCode, $errorString) = @$this->database->errorInfo();
+            $this->log->error("QUERY: prepare failed: $sqlstate:$errorCode:$errorString");
+            return array();
+        }
+        while ($binders = each($bind)) {
+            $statement->bindParam($binders[0], $binders[1]);
+            // TODO dev: Warning: PDOStatement::bindParam(): SQLSTATE[HY093]: Invalid parameter number: Columns/Parameters are 1-based
+        }
+        if (!$statement->execute()) {
+            $this->log->error('QUERY: Can not execute query');
+            return array();
+        }
+        $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
+        if (!$result && $this->database->errorCode() != '00000') { // query failed
+            $this->log->error('QUERY: Query failed');
+            $result = array();
+        }
+        $this->log->debug('QUERY: result size=' . sizeof($result));
+        return $result;
     }
 
     /**
@@ -103,57 +104,65 @@ class SqliteDatabase implements AttogramDatabase
      * @param  array  $bind (optional) Array of name/values to bind into the SQL query
      * @return bool         true on successful query, false on error
      */
-    public function queryb( $sql, array $bind = array() )
+    public function queryb($sql, array $bind = array())
     {
-      $this->log->debug('QUERYB: backtrace=' . ( ($btr = debug_backtrace()) ? $btr[1]['function'] : '?' ) . ' sql=' . $sql);
-      if( $bind ) {
-        $this->log->debug('QUERYB: bind=',$bind);
-      }
-      if( !$this->initDB() ) {
-        $this->log->error('QUERYB: Can not get database');
-        return false;
-      }
-      $statement = $this->queryPrepare($sql);
-      if( !$statement ) {
-        list($sqlstate, $errorCode, $errorString) = @$this->database->errorInfo();
-        $this->log->error("QUERYB: prepare failed: $sqlstate:$errorCode:$errorString");
-        return false;
-      }
-      while( $binder = each($bind) ) {
-        $statement->bindParam($binder[0], $binder[1]);
-      }
-      if( !$statement->execute() ) {
-        list($sqlstate, $errorCode, $errorString) = @$this->database->errorInfo();
-        $this->log->error("QUERYB: execute failed: $sqlstate:$errorCode:$errorString");
-        return false;
-      }
-      $this->log->debug('QUERYB true');
-      return true;
-     }
+        $this->log->debug('QUERYB: backtrace='.(($btr = debug_backtrace())
+            ? $btr[1]['function'] : '?').' sql='.$sql);
+        if ($bind) {
+            $this->log->debug('QUERYB: bind=',$bind);
+        }
+        if (!$this->initDB()) {
+            $this->log->error('QUERYB: Can not get database');
+            return false;
+        }
+        $statement = $this->queryPrepare($sql);
+        if (!$statement) {
+            list($sqlstate, $errorCode, $errorString) = @$this->database->errorInfo();
+            $this->log->error("QUERYB: prepare failed: $sqlstate:$errorCode:$errorString");
+            return false;
+        }
+        while ($binder = each($bind)) {
+            $statement->bindParam($binder[0], $binder[1]);
+        }
+        if (!$statement->execute()) {
+            list($sqlstate, $errorCode, $errorString) = @$this->database->errorInfo();
+            $this->log->error("QUERYB: execute failed: $sqlstate:$errorCode:$errorString");
+            return false;
+        }
+        $this->log->debug('QUERYB true');
+        return true;
+    }
 
     /**
      * Prepare a SQL query
      * @param string $sql The SQL query to prepare
      * @return object|boolean
      */
-    public function queryPrepare( $sql )
+    public function queryPrepare($sql)
     {
-      $statement = $this->database->prepare($sql);
-      if( $statement ) { return $statement; }
-      list($sqlstate, $errorCode, $errorString) = @$this->database->errorInfo();
-      $this->log->error("QUERY_PREPARE: Can not prepare sql: $sqlstate:$errorCode:$errorString");
-      if( $sqlstate == 'HY000' && $errorCode == '1' && preg_match('/^no such table/', $errorString) ) { // table not found
-        $table = str_replace('no such table: ', '', $errorString); // get table name
-        if( $this->createTable($table) ) { // create table
-          $this->log->notice("QUERY_PREPARE: Created table: $table");
-          $statement = $this->database->prepare($sql);
-          if( $statement ) { return $statement; } // try again
-          $this->log->error('QUERY_PREPARE: Still can not prepare sql');
-          return false;
+        $statement = $this->database->prepare($sql);
+        if ($statement) {
+            return $statement;
         }
-        $this->log->error("QUERY_PREPARE: Can not create table: $table");
-        return false;
-      }
+        list($sqlstate, $errorCode, $errorString) = @$this->database->errorInfo();
+        $this->log->error("QUERY_PREPARE: Can not prepare sql: $sqlstate:$errorCode:$errorString");
+        // table not found
+        if ($sqlstate == 'HY000' && $errorCode == '1' && preg_match('/^no such table/', $errorString) ) {
+            // get table name
+            $table = str_replace('no such table: ', '', $errorString);
+            // create table
+            if ($this->createTable($table)) {
+                $this->log->notice("QUERY_PREPARE: Created table: $table");
+                $statement = $this->database->prepare($sql);
+                if ($statement) {
+                    return $statement;
+                }
+                $this->log->error('QUERY_PREPARE: Still can not prepare sql');
+                return false;
+            }
+            $this->log->error("QUERY_PREPARE: Can not create table: $table");
+            return false;
+        }
     }
 
     /**
@@ -162,27 +171,27 @@ class SqliteDatabase implements AttogramDatabase
      */
     public function loadTableDefinitions()
     {
-      if( isset($this->tables) && is_array($this->tables) ) {
-        return true;
-      }
-      $dirs = Attogram::getAllSubdirectories( $this->modulesDirectory, 'tables');
-      if( !$dirs ) {
-        $this->log->debug('GET_TABLES: No module tables found');
-        return false;
-      }
-      $this->tables = array();
-      foreach( $dirs as $d ) {
-        foreach( array_diff(scandir($d), Attogram::getSkipFiles() ) as $f ) {
-          $file = $d . '/' . $f;
-          if( !is_file($file) || !is_readable($file) || !preg_match('/\.sql$/',$file) ) {
-            continue; // .sql files only
-          }
-          $tableName = str_replace('.sql','',$f);
-          $this->tables[$tableName] = file_get_contents($file);
-          $this->log->debug('GET_TABLES: got table: ' . $tableName . ' from ' . $file);
+        if (isset($this->tables) && is_array($this->tables)) {
+            return true;
         }
-      }
-      return true;
+        $dirs = Attogram::getAllSubdirectories($this->modulesDirectory, 'tables');
+        if (!$dirs) {
+            $this->log->debug('GET_TABLES: No module tables found');
+            return false;
+        }
+        $this->tables = array();
+        foreach ($dirs as $d) {
+            foreach (array_diff(scandir($d), Attogram::getSkipFiles() ) as $f) {
+                $file = $d.'/'.$f;
+                if (!is_file($file) || !is_readable($file) || !preg_match('/\.sql$/', $file)) {
+                    continue; // .sql files only
+                }
+                $tableName = str_replace('.sql', '', $f);
+                $this->tables[$tableName] = file_get_contents($file);
+                $this->log->debug('GET_TABLES: got table: '.$tableName.' from '.$file);
+            }
+        }
+        return true;
     }
 
     /**
@@ -190,18 +199,18 @@ class SqliteDatabase implements AttogramDatabase
      * @param string $table The name of the table to create
      * @return boolean
      */
-    public function createTable( $table )
+    public function createTable($table)
     {
-      $this->loadTableDefinitions();
-      if( !isset($this->tables[$table]) ) {
-        $this->log->error("CREATE_TABLE: Unknown table: $table");
-        return false;
-      }
-      if( !$this->queryb( $this->tables[$table] ) ) {
-        $this->log->error("CREATE_TABLE: failed to create: $table");
-        return false;
-      }
-      return true;
+        $this->loadTableDefinitions();
+        if (!isset($this->tables[$table])) {
+            $this->log->error("CREATE_TABLE: Unknown table: $table");
+            return false;
+        }
+        if (!$this->queryb( $this->tables[$table])) {
+            $this->log->error("CREATE_TABLE: failed to create: $table");
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -211,17 +220,17 @@ class SqliteDatabase implements AttogramDatabase
      * @param string $where    (optional) The SQL WHERE clause to add
      * @return int             The number of entries
      */
-    public function getTableCount( $table, $idField = 'id', $where = '' )
+    public function getTableCount($table, $idField = 'id', $where = '')
     {
-      $sql = 'SELECT count(' . $idField . ') AS count FROM ' . $table;
-      if( $where ) {
-        $sql .= ' ' . $where;
-      }
-      $count = $this->query($sql);
-      if( $count ) {
-        return $count[0]['count'];
-      }
-      return 0;
+        $sql = 'SELECT count('.$idField.') AS count FROM '.$table;
+        if ($where) {
+            $sql .= ' '.$where;
+        }
+        $count = $this->query($sql);
+        if ($count) {
+            return $count[0]['count'];
+        }
+        return 0;
     }
 
     /**
@@ -241,87 +250,95 @@ class SqliteDatabase implements AttogramDatabase
      *
      * @return string                HTML fragment
      */
-    public function tabler( $table, $tableId, $nameSingular, $namePlural, $publicLink, array $col, $sql, $adminLink, $showEdit, $perPage )
-    {
-
-      $count = 0;
-      $result = $this->query( 'SELECT count(' . $tableId . ') AS count FROM ' . $table );
-      if( $result ) {
-        $count = $result[0]['count'];
-      }
-
-      list( $limit, $offset ) = $this->getSetLimitAndOffset(
-        $perPage, // $defaultLimit
-        0, // $defaultOffset
-        1000, // $maxLimit
-        5 // $minLimit
-      );
-
-      $this->log->debug("TABLER: count=$count limit=$limit offset=$offset");
-      $sql .= " LIMIT $limit";
-      if( $offset ) {
-        $sql .= ", $offset";
-      }
-      $result = $this->query($sql);
-
-      $adminCreate = $adminEdit = $adminDelete = '';
-      if( $showEdit ) {
-        $adminCreate = '../db-admin/?table=' . $table .'&amp;action=row_create';
-        $adminEdit = '../db-admin/?table=' . $table . '&amp;action=row_editordelete&amp;type=edit&amp;pk='; // [#ID]
-        $adminDelete = '../db-admin/?table=' . $table . '&amp;action=row_editordelete&amp;type=delete&amp;pk='; // [#ID]
-      }
-      print '<div class="container">';
-      print $this->pager( $count, $limit, $offset );
-
-      print '<p>';
-
-      if( $showEdit ) {
-        if( $publicLink ) {
-          print '<a href="' . $publicLink . '">👤 view</a> &nbsp; &nbsp; &nbsp; ';
+    public function tabler(
+        $table,
+        $tableId,
+        $nameSingular,
+        $namePlural,
+        $publicLink,
+        array $col,
+        $sql,
+        $adminLink,
+        $showEdit,
+        $perPage
+    ) {
+        $count = 0;
+        $result = $this->query('SELECT count('.$tableId.') AS count FROM '.$table);
+        if ($result) {
+            $count = $result[0]['count'];
         }
-        print '<a target="_db" href="' . $adminCreate . '">➕ new ' . $nameSingular . '</a>';
-      }
 
-      print '</p><table class="table table-bordered table-hover table-condensed"><colgroup>';
+        list($limit, $offset) = $this->getSetLimitAndOffset(
+            $perPage, // $defaultLimit
+            0, // $defaultOffset
+            1000, // $maxLimit
+            5 // $minLimit
+        );
 
-      foreach( $col as $column ) {
-        print '<col class="' . $column['class'] . '">';
-      }
-      if( $showEdit ) {
-        print '<col class="col-md-1">';
-      }
-      print '</colgroup><thead><tr class="active">';
-
-      foreach( $col as $column ) {
-        print '<th>' . $column['title'] . '</th>';
-      }
-      if( $showEdit ) {
-        print '<th><nobr><small>'
-        . 'edit <span class="glyphicon glyphicon-wrench" title="edit"></span>'
-        . ' &nbsp; '
-        . '<span class="glyphicon glyphicon-remove-circle" title="delete"></span> delete'
-        . '</small></nobr></th>';
-      }
-      print '</tr></thead><tbody>';
-
-      foreach( $result as $row ) {
-        print '<tr>';
-        foreach( $col as $column ) {
-          print '<td>' . htmlentities($row[ $column['key'] ]) . '</td>';
+        $this->log->debug("TABLER: count=$count limit=$limit offset=$offset");
+        $sql .= " LIMIT $limit";
+        if ($offset) {
+            $sql .= ", $offset";
         }
-        if( $showEdit ) {
-          print '<td> &nbsp; &nbsp; '
-          . '<a target="_db" href="' . $adminEdit . '[' . $row['id'] . ']">'
-          . '<span class="glyphicon glyphicon-wrench" title="edit"></span></a>'
-          . ' &nbsp; &nbsp; '
-          . '<a target="_db" href="' . $adminDelete . '[' . $row['id'] . ']">'
-          . '<span class="glyphicon glyphicon-remove-circle" title="delete"></span></a>'
-          . '</td>'
-          ;
+        $result = $this->query($sql);
+
+        $adminCreate = $adminEdit = $adminDelete = '';
+        if ($showEdit) {
+            $adminCreate = '../db-admin/?table='.$table.'&amp;action=row_create';
+            $adminEdit = '../db-admin/?table='.$table.'&amp;action=row_editordelete&amp;type=edit&amp;pk=';
+            $adminDelete = '../db-admin/?table='.$table.'&amp;action=row_editordelete&amp;type=delete&amp;pk=';
         }
-        print '</tr>';
-      }
-      print '</tbody></table></div>';
+        print '<div class="container">';
+        print $this->pager($count, $limit, $offset);
+        print '<p>';
+
+        if ($showEdit) {
+            if ($publicLink) {
+                print '<a href="'.$publicLink.'">👤 view</a> &nbsp; &nbsp; &nbsp; ';
+            }
+            print '<a target="_db" href="'.$adminCreate.'">➕ new '.$nameSingular.'</a>';
+        }
+
+        print '</p><table class="table table-bordered table-hover table-condensed"><colgroup>';
+
+        foreach ($col as $column) {
+            print '<col class="'.$column['class'].'">';
+        }
+        if ($showEdit) {
+            print '<col class="col-md-1">';
+        }
+        print '</colgroup><thead><tr class="active">';
+
+        foreach ($col as $column) {
+            print '<th>'.$column['title'].'</th>';
+        }
+        if ($showEdit) {
+          print '<th><nobr><small>'
+              .'edit <span class="glyphicon glyphicon-wrench" title="edit"></span>'
+              .' &nbsp; '
+              .'<span class="glyphicon glyphicon-remove-circle" title="delete"></span> delete'
+              .'</small></nobr></th>';
+        }
+        print '</tr></thead><tbody>';
+
+        foreach ($result as $row) {
+            print '<tr>';
+            foreach ($col as $column) {
+                print '<td>'.htmlentities($row[$column['key']]).'</td>';
+            }
+            if ($showEdit) {
+                print '<td> &nbsp; &nbsp; '
+                    .'<a target="_db" href="'.$adminEdit.'['.$row['id'].']">'
+                    .'<span class="glyphicon glyphicon-wrench" title="edit"></span></a>'
+                    .' &nbsp; &nbsp; '
+                    .'<a target="_db" href="'.$adminDelete.'['.$row['id'].']">'
+                    .'<span class="glyphicon glyphicon-remove-circle" title="delete"></span></a>'
+                    .'</td>'
+                    ;
+            }
+            print '</tr>';
+        }
+        print '</tbody></table></div>';
     }
 
     /**
@@ -332,55 +349,53 @@ class SqliteDatabase implements AttogramDatabase
      * @param  string $preQS  (optional) URL Query String to prepend to pagination links, pairs of  name=value&name=value&...
      * @return string          HTML fragment
      */
-    public function pager( $count, $limit, $offset, $preQS = '' )
+    public function pager($count, $limit, $offset, $preQS = '')
     {
-
-      if( $limit > $count ) {
-        $limit = $count;
-      }
-      if( $offset > $count ) {
-        $offset = $count - $limit;
-      }
-      $startCount = $offset + 1;
-      $endCount = $offset + $limit;
-      if( !$endCount ) {
-        $startCount = 0;
-      }
-      if( $endCount > $count ) {
-        $endCount = $count;
-      }
-
-      $result = '<p class="small">Showing # ' . "<strong>$startCount</strong> - <strong>$endCount</strong> of <code>$count</code> results</p>";
-
-      if( $limit <= 0 ) {
-        $totalPages = 0;
-      } else {
-        $totalPages = ceil( $count / $limit );
-        if( $totalPages == 1 ) {
-          $totalPages = 0;
+        if ($limit > $count) {
+            $limit = $count;
         }
-      }
-
-      if( $totalPages ) {
-        $result .= '<ul class="pagination pagination-sm squished">';
-        $pOffset = 0;
-        $urlStart = '?';
-        if( $preQS ) {
-          $urlStart .= $preQS . '&amp;';
+        if ($offset > $count) {
+            $offset = $count - $limit;
         }
-        for( $x = 0; $x < $totalPages; $x++ ) {
-          $active = '';
-          if( $startCount == $pOffset + 1 ) {
-            $active = ' class="active"';
-          }
-          $url = $urlStart . 'l=' . $limit . '&amp;o=' . $pOffset;
-          $result .= '<li' . $active . '><a href="' . $url . '">' . ($x+1) . '</a></li>';
-          $pOffset += $limit;
+        $startCount = $offset + 1;
+        $endCount = $offset + $limit;
+        if (!$endCount) {
+            $startCount = 0;
         }
-        $result .= '</ul>';
-      }
+        if ($endCount > $count) {
+            $endCount = $count;
+        }
 
-      return $result;
+        $result = '<p class="small">Showing # '."<strong>$startCount</strong> - <strong>$endCount</strong> of <code>$count</code> results</p>";
+
+        if ($limit <= 0) {
+            $totalPages = 0;
+        } else {
+            $totalPages = ceil($count / $limit);
+            if ($totalPages == 1) {
+                $totalPages = 0;
+            }
+        }
+
+        if ($totalPages) {
+            $result .= '<ul class="pagination pagination-sm squished">';
+            $pOffset = 0;
+            $urlStart = '?';
+            if ($preQS) {
+                $urlStart .= $preQS.'&amp;';
+            }
+            for ($x = 0; $x < $totalPages; $x++) {
+                $active = '';
+                if ($startCount == $pOffset + 1) {
+                    $active = ' class="active"';
+                }
+                $url = $urlStart.'l='.$limit.'&amp;o='.$pOffset;
+                $result .= '<li'.$active.'><a href="'.$url.'">'.($x+1).'</a></li>';
+                $pOffset += $limit;
+            }
+            $result .= '</ul>';
+        }
+        return $result;
     }
 
     /**
@@ -392,28 +407,30 @@ class SqliteDatabase implements AttogramDatabase
      * @param  int    $minLimit      (optional) The minimum allowed limit value. Defaults to 100
      * @return array                  Array of (limit,offset)
      */
-    public function getSetLimitAndOffset( $defaultLimit = 1000, $defaultOffset = 0, $maxLimit = 5000, $minLimit = 100 )
-    {
-      //$this->log->debug("getSetLimitAndOffset: default_limit=$defaultLimit default_offset=$defaultOffset max_limit=$maxLimit min_limit=$minLimit ");
-      $limit = $defaultLimit;
-      $offset = $defaultOffset;
-      if( isset($_GET['l']) && $_GET['l'] ) { // LIMIT
-        $limit = (int)$_GET['l'];
+    public function getSetLimitAndOffset(
+        $defaultLimit = 1000,
+        $defaultOffset = 0,
+        $maxLimit = 5000,
+        $minLimit = 100
+    ) {
+        $limit = $defaultLimit;
         $offset = $defaultOffset;
-        if( isset($_GET['o']) && $_GET['o'] ) { // OFFSET
-          $offset = (int)$_GET['o'];
+        if (isset($_GET['l']) && $_GET['l']) { // LIMIT
+            $limit = (int)$_GET['l'];
+            $offset = $defaultOffset;
+            if (isset($_GET['o']) && $_GET['o']) { // OFFSET
+                $offset = (int)$_GET['o'];
+            }
         }
-      }
-      if( $limit > $maxLimit ) {
-        $this->log->notice("getSetLimitAndOffset: limit=$limit too large.  Setting to max limit=$maxLimit");
-        $limit = $maxLimit;
-      }
-      if( $limit < $minLimit ) {
-        $this->log->notice("getSetLimitAndOffset: limit=$limit too small.  Setting to min limit=$minLimit");
-        $limit = $minLimit;
-      }
-      //$this->log->debug("getSetLimitAndOffset: limit=$limit offset=$offset");
-      return array( $limit, $offset );
+        if ($limit > $maxLimit) {
+            $this->log->notice("getSetLimitAndOffset: limit=$limit too large.  Setting to max limit=$maxLimit");
+            $limit = $maxLimit;
+        }
+        if ($limit < $minLimit) {
+            $this->log->notice("getSetLimitAndOffset: limit=$limit too small.  Setting to min limit=$minLimit");
+            $limit = $minLimit;
+        }
+        return array($limit, $offset);
     }
 
 } // END of class SqliteDatabase
