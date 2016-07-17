@@ -17,7 +17,7 @@
 
 ## [v0.0.2](https://github.com/attogram/attogram-database/compare/v0.0.1...v0.0.2) - 2016-07-11
 
-- Added event system files, moved in from [attogram-base](https://github.com/attogram/attogram-base) module
+- Added event system files, moved in from [attogram-info](https://github.com/attogram/attogram-info) module
 - refactoring / code cleanup for PSR-1 + PSR-2 code conventions
 - Travis CI integration: <https://travis-ci.org/attogram/attogram-database>
 - Codacy integration: <https://www.codacy.com/app/attogram-project/attogram-database/dashboard>
