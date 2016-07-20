@@ -1,11 +1,11 @@
-<?php  // Attogram Framework - Database Module - SqliteDatabase class v0.3.18
+<?php  // Attogram Framework - Database Module - SqliteDatabase class v0.3.19
 
 namespace Attogram;
 
 /**
  * Attogram SqliteDatabase
  */
-class SqliteDatabase implements AttogramDatabase
+class SqliteDatabase implements AttogramDatabaseInterface
 {
 
     public $databaseName;      // (string) path/filename of the SQLite database file
