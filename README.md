@@ -19,7 +19,7 @@ for the [Attogram Framework](https://github.com/attogram/attogram).
 * Goto the top level of your install, then run:
 
 ```
-composer create-project attogram/attogram-database modules/_AttogramDatabase
+composer create-project attogram/attogram-database modules/_database
 ```
 
 ## Database Module contents
