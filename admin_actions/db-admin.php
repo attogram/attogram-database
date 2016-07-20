@@ -1,4 +1,4 @@
-<?php 
+<?php
 // Attogram Framework - Database Module - phpLiteAdmin mod v0.0.5
 
 //
@@ -918,7 +918,7 @@ if ($auth->isAuthorized())
 		header("Pragma: no-cache");
 		header("Expires: 0");
 		readfile($_GET['download']);
-		exit;
+		$this->shutdown(); // Attogram exit
 	}
 }
 
