@@ -18,6 +18,7 @@
   ],
   "suggest": {
     "attogram/attogram-framework": "The Attogram Framework",
+    "attogram/attogram-modulemanager": "Module Manager for the Attogram Framework",
     "attogram/attogram-user": "User Module for the Attogram Framework",
     "attogram/attogram-info": "Info Module for the Attogram Framework",
     "attogram/attogram-contactform": "Contact Form Module for the Attogram Framework"
