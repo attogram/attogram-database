@@ -1,4 +1,4 @@
-<?php  // Attogram Framework - Database Module - SqliteDatabase class v0.3.19
+<?php  // Attogram Framework - Database Module - SqliteDatabase class v0.3.20
 
 namespace Attogram;
 
@@ -77,8 +77,7 @@ class SqliteDatabase implements AttogramDatabaseInterface
         }
         $statement = $this->queryPrepare($sql);
         if (!$statement) {
-            list($sqlstate, $errorCode, $errorString) = @$this->database->errorInfo();
-            $this->log->error("QUERY: prepare failed: $sqlstate:$errorCode:$errorString");
+            $this->log->error("QUERY: ERROR:", @$this->database->errorInfo());
             return array();
         }
         while ($binders = each($bind)) {
@@ -87,6 +86,7 @@ class SqliteDatabase implements AttogramDatabaseInterface
         }
         if (!$statement->execute()) {
             $this->log->error('QUERY: Can not execute query');
+            $this->log->error("QUERY: ERROR:", @$this->database->errorInfo());
             return array();
         }
         $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
